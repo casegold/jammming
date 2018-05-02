@@ -30,6 +30,7 @@ class App extends Component {
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
+    this.savePlaylist = this.savePlaylist.bind(this);
   }
 
   addTrack(track) {
@@ -40,12 +41,18 @@ class App extends Component {
     // this.setState({playlistTracks: newPlaylistTracks});
     this.setState({playlistTracks: this.state.playlistTracks.push(track)});
   }
-  removeTrack(track) {
+  removeTrack (track) {
     // const newPlaylistTracks = this.state.playlistTracks.filter(removeTrack => removeTrack.id !== track.id)
     this.setState({playlistTracks: this.state.playlistTracks.filter(removeTrack => removeTrack.id !== track.id)});
   }
   updatePlaylistName (name) {
     this.setState({playlistName: name});
+  }
+  savePlaylist () {
+    const trackURIs = this.state.playlistTracks.map(track => 'spotify:track:'+ track.id);
+    //later we'll pass trackURIs and playlistName to a method that will save user's playlist to their account
+    //after passing to Spotify it will reset playlist name and tracks array
+    return {playlistName: this.state.playlistTracks.name, trackURIs: trackURIs};
   }
 
   render() {
