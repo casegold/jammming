@@ -7,7 +7,6 @@ import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import Spotify from '../../util/Spotify';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +56,7 @@ class App extends Component {
     return {playlistName: this.state.playlistTracks.name, trackURIs: trackURIs};
   }
   search (term) {
-    console.log(term);
+    Spotify.search(term);
   }
 
   render() {
