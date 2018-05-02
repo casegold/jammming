@@ -16,14 +16,16 @@ class App extends Component {
         name:'default_name',
         artist:'default_artist',
         album:'default_album',
-        id:'default_id'
+        id:'default_id',
+        uri:'spotify:track:default_id'
       }],
       playlistName:'default_playlistName',
       playlistTracks:[{
         name:'default_name_pl',
         artist:'default_artist_pl',
         album:'default_album_pl',
-        id:'default_id_pl'
+        id:'default_id_pl',
+        uri:'spotify:track:default_id_pl'
       }]
     };
 
@@ -50,10 +52,10 @@ class App extends Component {
     this.setState({playlistName: name});
   }
   savePlaylist () {
-    const trackURIs = this.state.playlistTracks.map(track => 'spotify:track:'+ track.id);
-    //later we'll pass trackURIs and playlistName to a method that will save user's playlist to their account
-    //after passing to Spotify it will reset playlist name and tracks array
-    return {playlistName: this.state.playlistTracks.name, trackURIs: trackURIs};
+    const trackURIs = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(trackURIs, this.state.playlistTracks.name);
+    // after passing to Spotify it will reset playlist name and tracks array
+    // this.updatePlaylistName('New Playlist');
   }
   search (term) {
     Spotify.search(term).then(tracks => {
