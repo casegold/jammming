@@ -17,6 +17,13 @@ class App extends Component {
         artist:'default_artist',
         album:'default_album',
         id:'default_id'
+      }],
+      playlistName:'default_playlistName',
+      playlistTracks:[{
+        name:'default_name_pl',
+        artist:'default_artist_pl',
+        album:'default_album_pl',
+        id:'default_id_pl'
       }]
     };
   }
@@ -29,7 +36,7 @@ class App extends Component {
           <SearchBar />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} />
-            <Playlist />
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
