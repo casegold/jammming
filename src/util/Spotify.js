@@ -39,19 +39,18 @@ const Spotify = {
   savePlaylist (playlistName, trackURIs) {
     const token = accessToken;
     let headers = { Authorization: `Bearer ${token}` };
-    let user_id = '';
+
     // 1. GET current user's id
-    fetch(`https://api.spotify.com/v1/me`, {
+    let user_id = fetch(`https://api.spotify.com/v1/me`, {
       headers: headers
     }).then(response => {
       return response.json();
     }).then(jsonResponse => {
-      user_id = jsonResponse.id;
+      return jsonResponse.id;
     });
     // 2. POST a new playlist with the input name to the current user's Spotify account. Receive the playlist ID back from the request.
-    let playlistID = '';
     headers['Content-Type'] = 'application/json';
-    fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`,{
+    let playlistID = fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`,{
       headers: headers,
       method: 'POST',
       body: {
@@ -60,10 +59,10 @@ const Spotify = {
     }).then(response => {
       return response.json();
     }).then(jsonResponse => {
-      playlistID = jsonResponse.id
+      return jsonResponse.id;
     });
     // 3. POST the track URIs to the newly-created playlist, referencing the current user's account (ID) and the new playlist (ID)
-    fetch(`https://api.spotify.com/v1/users/${user_id}/playlists/${playlist_id}/tracks`,{
+    fetch(`https://api.spotify.com/v1/users/${user_id}/playlists/${playlistID}/tracks`,{
       headers: headers,
       method: 'POST',
       body: {
