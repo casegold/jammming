@@ -56,7 +56,9 @@ class App extends Component {
     return {playlistName: this.state.playlistTracks.name, trackURIs: trackURIs};
   }
   search (term) {
-    Spotify.search(term);
+    Spotify.search(term).then(tracks => {
+      this.setState({ searchResults: tracks});
+    });
   }
 
   render() {
