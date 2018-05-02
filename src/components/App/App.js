@@ -66,7 +66,8 @@ class App extends Component {
             <Playlist playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
               onRemove={this.removeTrack}
-              onNameChange={this.updatePlaylistName} />
+              onNameChange={this.updatePlaylistName}
+              onSave={this.savePlaylist} />
           </div>
         </div>
       </div>
