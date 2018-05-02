@@ -10,7 +10,7 @@ class Track extends React.Component {
   }
 
   addTrack() {
-    console.log('DEBUG: Track is ' + JSON.stringify(this.props.track));
+    console.log('Track.js adding track, ', this.props.track);
     this.props.onAdd(this.props.track);
   }
   removeTrack() {

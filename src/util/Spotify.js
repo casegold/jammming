@@ -1,16 +1,14 @@
 let accessToken = '';
-const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_id = 'b998a794f4c941189e81f2df4b284997';
 const redirect_uri = 'http://localhost:3000/';
 
 const Spotify = {
   getAccessToken() {
-    // console.log('initial access token, ', accessToken);
     if (accessToken) {
       return accessToken;
     } else if (window.location.href.includes('access_token')) {
-      accessToken = window.location.href.match(/access_token=([^&]*)/);
-      console.log('updated access token, ', accessToken);
-      const expiresIn = window.location.href.match(/expires_in=([^&]*)/);
+      accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
+      const expiresIn = window.location.href.match(/expires_in=([^&]*)/)[1];
       window.setTimeout(() => accessToken = '', expiresIn * 1000);
       window.history.pushState('Access Token', null, '/');
       return accessToken;
@@ -23,22 +21,17 @@ const Spotify = {
     const token = this.getAccessToken();
     return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`,{
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${token}`
       }
     }).then(response => {
-    	if (response.ok) {
        return response.json();
-      }
-      throw new Error('Request failed!');
-    }, networkError => {
-      console.log(networkError.message);
-    }).then(jsonResponse => {
-      // console.log('jsonResponse, ' , jsonResponse);
+     }).then(jsonResponse => {
+      // console.log('jsonResponse.tracks, ' , jsonResponse.tracks);
       if(jsonResponse) {
-        return jsonResponse.items.map(track => ({
+        return jsonResponse.tracks.items.map(track => ({
           id: track.id,
           name: track.name,
-          artist: track.artist[0].name,
+          artist: track.artists[0].name,
           album: track.album.name,
           uri: track.uri
         }));
@@ -47,7 +40,7 @@ const Spotify = {
     })
   },
   savePlaylist (playlistName, trackURIs) {
-    const token = accessToken;
+    const token = this.getAccessToken();
     let headers = { Authorization: `Bearer ${token}` };
 
     // 1. GET current user's id
