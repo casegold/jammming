@@ -12,21 +12,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      searchResults: [{
-        name:'default_name',
-        artist:'default_artist',
-        album:'default_album',
-        id:'default_id',
-        uri:'spotify:track:default_id'
-      }],
-      playlistName:'default_playlistName',
-      playlistTracks:[{
-        name:'default_name_pl',
-        artist:'default_artist_pl',
-        album:'default_album_pl',
-        id:'default_id_pl',
-        uri:'spotify:track:default_id_pl'
-      }]
+      searchResults: [],
+      playlistName:'New Playlist',
+      playlistTracks:[]
     };
 
     this.addTrack = this.addTrack.bind(this);
@@ -55,7 +43,6 @@ class App extends Component {
   savePlaylist () {
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
     Spotify.savePlaylist(this.state.playlistTracks.name, trackURIs);
-    // after passing to Spotify it will reset playlist name and tracks array
     this.updatePlaylistName('New Playlist');
     this.setState({playlistTracks:[]});
   }
