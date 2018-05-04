@@ -29,11 +29,10 @@ class App extends Component {
     if(this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
       return;
     }
-    // const newPlaylistTracks = this.state.playlistTracks.push(track);
-    // this.setState({playlistTracks: newPlaylistTracks});
     console.log('Adding track to playlist, ', track);
-    this.setState({playlistTracks: this.state.playlistTracks.push(track)});
-    console.log('Added to playlist, ', track);
+    const newPlaylistTracks = (this.state.playlistTracks || []).concat(track);
+    this.setState({playlistTracks: newPlaylistTracks});
+    // this.setState({ playlistTracks: [ ...(this.state.playlistTracks || []) ].concat(track) });
   }
   removeTrack (track) {
     // const newPlaylistTracks = this.state.playlistTracks.filter(removeTrack => removeTrack.id !== track.id)
@@ -54,6 +53,7 @@ class App extends Component {
     Spotify.search(term).then(tracks => {
       this.setState({ searchResults: tracks});
     });
+    console.log('searchResults returns, ', this.state.searchResults);
   }
 
   render() {
